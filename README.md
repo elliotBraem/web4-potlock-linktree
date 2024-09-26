@@ -5,10 +5,10 @@
 
 <div align="center">
 
-<h1 style="font-size: 2.5rem; font-weight: bold;">Project Title</h1>
+<h1 style="font-size: 2.5rem; font-weight: bold;">Decentralized Social</h1>
 
   <p>
-    <strong>This is a basic project template for new Build DAO projects</strong>
+    <strong>Open social experiences built with <a target="_blank" href="https://github.com/NEARBuilders/near-social-js">near-social-js</a></strong>
   </p>
 
 </div>
