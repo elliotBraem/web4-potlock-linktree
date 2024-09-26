@@ -8,7 +8,7 @@
 <h1 style="font-size: 2.5rem; font-weight: bold;">Decentralized Social</h1>
 
   <p>
-    <strong>Open social experiences built with <a target="_blank" href="https://github.com/NEARBuilders/near-social-js">near-social-js</a></strong>
+    <strong>Own your social experience, built with <a target="_blank" href="https://github.com/NEARBuilders/near-social-js">near-social-js</a></strong>
   </p>
 
 </div>
