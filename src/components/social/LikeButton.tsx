@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { getLikes, likeItem, hasLike, Item } from '@/lib/social';
-import { useWallet } from '@/contexts/near';
+import React, { useState, useEffect } from "react";
+import { getLikes, likeItem, hasLike, Item } from "@/lib/social";
+import { useWallet } from "@/contexts/near";
 
 interface LikeButtonProps {
   item: Item;
@@ -40,15 +40,11 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ item, accountId }) => {
     <button
       onClick={handleLike}
       disabled={isLoading}
-      className={`
-        px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-/80 transition-colors
-        duration-200 ease-in-out
-        ${isLiked
-          ? 'bg-red-100 text-red-600 hover:bg-red-200'
-          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-        }
-        ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-      `}
+      className={`hover:bg-orange-/80 rounded-md bg-orange-400 px-4 py-2 text-white transition-colors duration-200 ease-in-out ${
+        isLiked
+          ? "bg-red-100 text-red-600 hover:bg-red-200"
+          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+      } ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"} `}
     >
       👍 Like ({likes})
     </button>

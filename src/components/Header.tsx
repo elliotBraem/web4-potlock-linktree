@@ -17,7 +17,9 @@ export default function Header() {
     <header className="flex w-full items-center justify-between bg-white p-4 shadow-md">
       <Link to="/" className="flex items-center">
         {/* <span className="mr-2 text-4xl font-bold">👷</span> */}
-        <h1 className="text-xl font-bold text-purple-800">Decentralized Social</h1>
+        <h1 className="text-xl font-bold text-purple-800">
+          Decentralized Social
+        </h1>
       </Link>
       <div className="flex gap-4">
         {signedAccountId ? (
@@ -26,7 +28,7 @@ export default function Header() {
             <button
               onClick={handleSignOut}
               className={
-                "hover:bg-orange-400/80 rounded-md bg-orange-400 px-4 py-2 text-white transition-colors duration-200 ease-in-out"
+                "rounded-md bg-orange-400 px-4 py-2 text-white transition-colors duration-200 ease-in-out hover:bg-orange-400/80"
               }
             >
               sign out
@@ -35,7 +37,7 @@ export default function Header() {
         ) : (
           <Link
             to="/login"
-            className="hover:bg-orange-400/80 rounded-md bg-orange-400 px-4 py-2 text-white transition-colors duration-200 ease-in-out"
+            className="rounded-md bg-orange-400 px-4 py-2 text-white transition-colors duration-200 ease-in-out hover:bg-orange-400/80"
           >
             Connect NEAR Account
           </Link>

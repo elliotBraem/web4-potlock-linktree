@@ -10,7 +10,7 @@ export default function Feed() {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
+    isFetchingNextPage
   } = useGetPosts(10, "desc");
 
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -24,7 +24,7 @@ export default function Feed() {
     };
 
     observerRef.current = new IntersectionObserver(loadMorePosts, {
-      rootMargin: "200px", // Trigger before reaching the bottom
+      rootMargin: "200px" // Trigger before reaching the bottom
     });
 
     const currentRef = observerRef.current;
@@ -46,9 +46,7 @@ export default function Feed() {
   return (
     <div className="space-y-4">
       {data?.pages.map((page) =>
-        page.map((post, index) => (
-          <Post key={index} {...post} />
-        ))
+        page.map((post, index) => <Post key={index} {...post} />)
       )}
       {isFetchingNextPage && <div>Loading more posts...</div>}
       <div id="sentinel" ref={observerRef} />

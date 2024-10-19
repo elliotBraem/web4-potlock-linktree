@@ -27,7 +27,7 @@ function RootComponent() {
   return (
     <>
       <NearProvider>
-        <div className="bg-gradient-to-br from-orange-400 to-purple-800 min-h-screen">
+        <div className="min-h-screen bg-gradient-to-br from-orange-400 to-purple-800">
           <div className="container mx-auto px-4 py-8">
             <div className="overflow-hidden rounded-lg bg-white shadow-lg">
               <Header />

@@ -1,14 +1,14 @@
-import { NETWORK_ID } from '@/config';
-import { useWallet } from '@/contexts/near';
-import { queryClient } from '@/main';
-import { Wallet } from '@/wallets/near-wallet';
-import { Social, transformActions } from '@builddao/near-social-js';
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { NETWORK_ID } from "@/config";
+import { useWallet } from "@/contexts/near";
+import { queryClient } from "@/main";
+import { Wallet } from "@/wallets/near-wallet";
+import { Social, transformActions } from "@builddao/near-social-js";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
 export type SocialImage = {
   url: string;
   ipfs_cid: string;
-}
+};
 
 export type Profile = {
   name: string;
@@ -30,11 +30,11 @@ export interface Post {
     text: string;
     image: SocialImage;
   };
-};
+}
 
 export const SOCIAL_CONTRACT = {
-  mainnet: 'social.near',
-  testnet: 'v1.social08.testnet'
+  mainnet: "social.near",
+  testnet: "v1.social08.testnet"
 };
 
 export const social = new Social({
@@ -47,7 +47,7 @@ export async function getProfile(accountId: string): Promise<Profile | null> {
     keys: [`${accountId}/profile/**`]
   });
   if (!response) {
-    throw new Error('Failed to fetch profile');
+    throw new Error("Failed to fetch profile");
   }
   const { profile } = (response as Record<string, { profile: Profile }>)[
     accountId
@@ -56,7 +56,10 @@ export async function getProfile(accountId: string): Promise<Profile | null> {
   return profile;
 }
 
-export async function getPost(accountId: string, blockHeight: string): Promise<Post | null> {
+export async function getPost(
+  accountId: string,
+  blockHeight: string
+): Promise<Post | null> {
   const response = await social.get({
     keys: [`${accountId}/post/main`],
     blockHeight: blockHeight
@@ -73,8 +76,20 @@ export async function getPost(accountId: string, blockHeight: string): Promise<P
   }
 }
 
-export async function getPosts(action: string = "post", key: string = "main", limit: number, order: string = "desc", from?: string): Promise<Post[]> {
-  const response = await social.index({ action, key, order, limit: limit.toString(), from });
+export async function getPosts(
+  action: string = "post",
+  key: string = "main",
+  limit: number,
+  order: string = "desc",
+  from?: string
+): Promise<Post[]> {
+  const response = await social.index({
+    action,
+    key,
+    order,
+    limit: limit.toString(),
+    from
+  });
 
   if (!response) {
     return [];
@@ -99,8 +114,7 @@ export async function getPosts(action: string = "post", key: string = "main", li
   }
 }
 
-export function useGetPosts(limit: number = 10, order: string = 'desc') {
-
+export function useGetPosts(limit: number = 10, order: string = "desc") {
   const computeFetchFrom = (items: any, limit: number) => {
     if (!items || items.length < limit) {
       return false; // Return false if less than limit or no items
@@ -110,7 +124,7 @@ export function useGetPosts(limit: number = 10, order: string = 'desc') {
   };
 
   return useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ["posts"],
     queryFn: async ({ pageParam = undefined }) => {
       // post main
       return await getPosts("post", "main", limit, order, pageParam);
@@ -119,7 +133,7 @@ export function useGetPosts(limit: number = 10, order: string = 'desc') {
       const from = computeFetchFrom(lastPage, limit);
       return from; // Pass computed "from" value for the next query
     },
-    initialPageParam: undefined,
+    initialPageParam: undefined
   });
 }
 
@@ -129,21 +143,20 @@ export function useCreatePost() {
   return useMutation({
     onSuccess: () => {
       // Invalidate and refetch the "posts" query
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
     mutationFn: async ({ content }: { content: any }) => {
-
       try {
         const tx = await createPost(wallet!, content);
 
-        const result = wallet?.signAndSendTransaction(tx)
+        const result = wallet?.signAndSendTransaction(tx);
         return result; // Make sure the function returns a value/promise
       } catch (error) {
         console.error("Error in mutation:", error);
         throw error;
       }
     }
-  })
+  });
 }
 
 export async function createPost(wallet: Wallet, content: any) {
@@ -154,30 +167,30 @@ export async function createPost(wallet: Wallet, content: any) {
       data: {
         [accountId]: {
           post: {
-            main: JSON.stringify(content),
+            main: JSON.stringify(content)
           },
           index: {
             post: JSON.stringify({
               key: "main",
               value: {
-                type: content.type,
-              },
-            }),
-          },
-        },
+                type: content.type
+              }
+            })
+          }
+        }
       },
       account: {
         publicKey: publicKey,
-        accountID: accountId,
-      },
+        accountID: accountId
+      }
     });
 
     const transformedActions = transformActions(transaction.actions);
 
     return {
       contractId: SOCIAL_CONTRACT[NETWORK_ID],
-      actions: transformedActions,
-    }
+      actions: transformedActions
+    };
   } catch (error) {
     console.error("Error creating post:", error);
   }
@@ -186,7 +199,7 @@ export async function createPost(wallet: Wallet, content: any) {
 type Like = {
   accountId: string;
   value: {
-    type: 'like' | 'unlike';
+    type: "like" | "unlike";
   };
 };
 
@@ -218,10 +231,14 @@ export async function getLikes(item: Item): any {
     return likesByUsers;
   }
   // console.log("look", likes);
-
 }
 
-export async function likeItem(wallet: Wallet, item: Item, hasLike: boolean, notifyAccountId?: string): Promise<void> {
+export async function likeItem(
+  wallet: Wallet,
+  item: Item,
+  hasLike: boolean,
+  notifyAccountId?: string
+): Promise<void> {
   const account = await wallet.getAccount();
   const { publicKey, accountId } = account;
 
@@ -230,10 +247,10 @@ export async function likeItem(wallet: Wallet, item: Item, hasLike: boolean, not
       like: JSON.stringify({
         key: item,
         value: {
-          type: hasLike ? "unlike" : "like",
-        },
-      }),
-    },
+          type: hasLike ? "unlike" : "like"
+        }
+      })
+    }
   };
 
   if (!hasLike && notifyAccountId) {
@@ -241,20 +258,22 @@ export async function likeItem(wallet: Wallet, item: Item, hasLike: boolean, not
       key: notifyAccountId,
       value: {
         type: "like",
-        item,
-      },
+        item
+      }
     });
   }
 
-  const transaction = await social.set({ account: { accountID: accountId, publicKey: publicKey }, data: { [accountId]: data } });
-
+  const transaction = await social.set({
+    account: { accountID: accountId, publicKey: publicKey },
+    data: { [accountId]: data }
+  });
 
   const transformedActions = transformActions(transaction.actions);
 
   await wallet.signAndSendTransaction({
     contractId: SOCIAL_CONTRACT[NETWORK_ID],
-    actions: transformedActions,
-  })
+    actions: transformedActions
+  });
 }
 
 // Function to check if an account has liked an item
