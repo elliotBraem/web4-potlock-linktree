@@ -1,5 +1,5 @@
 import { getImageUrl, Profile } from "@/lib/social";
-import { Avatar } from "./social/Avatar";
+import { Avatar } from "./avatar";
 
 export const ProfileView: React.FC<{ profile: Profile }> = ({ profile }) => (
   <div className="mb-4 bg-white p-4">

@@ -6,7 +6,7 @@ import {
   createRootRouteWithContext
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import NearProvider from "@/contexts/near";
 
 export const Route = createRootRouteWithContext<{

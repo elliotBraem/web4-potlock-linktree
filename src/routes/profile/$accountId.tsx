@@ -1,4 +1,4 @@
-import { ProfileView } from "@/components/Profile";
+import { ProfileView } from "@/components/social/profile";
 import { getProfile } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 

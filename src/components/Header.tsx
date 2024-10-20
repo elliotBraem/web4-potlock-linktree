@@ -1,6 +1,6 @@
 import { useWallet } from "@/contexts/near";
 import { Link } from "@tanstack/react-router";
-import { ProfileLine } from "./social/ProfileLine";
+import { ProfileLine } from "./social/profile-line";
 
 export default function Header() {
   const { wallet, signedAccountId } = useWallet();

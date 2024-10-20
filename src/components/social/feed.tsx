@@ -1,6 +1,6 @@
 import { useGetPosts } from "@/lib/social";
 import { useEffect, useRef } from "react";
-import Post from "./Post";
+import Post from "./post";
 
 export default function Feed() {
   const {
