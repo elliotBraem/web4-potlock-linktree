@@ -29,6 +29,11 @@ function RootComponent() {
       <NearProvider>
         <div className="min-h-screen bg-gradient-to-br from-orange-400 to-purple-800">
           <div className="container mx-auto px-4 py-8">
+            <div className="flex justify-end p-1">
+              <a href="https://github.com/NEARBuilders/decentralized-social" target="_blank" className="text-white">
+                view source
+              </a>
+            </div>
             <div className="overflow-hidden rounded-lg bg-white shadow-lg">
               <Header />
               <main className="container mx-auto px-4 py-8">

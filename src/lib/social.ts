@@ -137,13 +137,16 @@ export function useGetPosts(limit: number = 10, order: string = "desc") {
   });
 }
 
-export function useCreatePost() {
+export function useCreatePost({ cleanup }: { cleanup?: () => void }) {
   const { wallet } = useWallet();
 
   return useMutation({
     onSuccess: () => {
       // Invalidate and refetch the "posts" query
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      if (cleanup) {
+        cleanup();
+      }
     },
     mutationFn: async ({ content }: { content: any }) => {
       try {

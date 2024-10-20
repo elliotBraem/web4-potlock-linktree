@@ -2,9 +2,8 @@ import { useCreatePost } from "@/lib/social";
 import { useState } from "react";
 
 export default function Compose() {
-  const mutation = useCreatePost();
-
   const [text, setText] = useState("");
+  const mutation = useCreatePost({ cleanup: () => setText("") });
 
   const handleSubmit = async () => {
     mutation.mutate({ content: { text, type: "md" } });
