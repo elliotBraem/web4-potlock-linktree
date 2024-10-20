@@ -1,6 +1,6 @@
 import { Post as PostType } from "@/lib/social";
-import LikeButton from "./LikeButton";
-import { ProfileLine } from "./ProfileLine";
+import LikeButton from "./like-button";
+import { ProfileLine } from "./profile-line";
 import { useWallet } from "@/contexts/near";
 import Markdown from "react-markdown";
 
