@@ -1,6 +1,6 @@
 import { Item } from "@/lib/social";
 import React, { useState } from "react";
-import { Modal } from "../ui/Modal";
+import { Modal } from "../ui/modal";
 import { DonateModal } from "./donate-modal";
 import { useGetDonations } from "@/lib/potlock";
 
