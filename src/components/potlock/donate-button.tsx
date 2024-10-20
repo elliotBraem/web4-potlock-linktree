@@ -17,7 +17,7 @@ export const DonateButton: React.FC<DonateButtonProps> = ({ recipientId }) => {
         className="rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
         onClick={() => setIsModalOpen(true)}
       >
-        💰 Donate
+        💰 Tip
       </button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DonateModal

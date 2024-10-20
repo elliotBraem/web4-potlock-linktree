@@ -23,7 +23,13 @@ export const DonateModal: React.FC<{
         placeholder="Amount"
         value={amount}
         onChange={(e) => {
-          setAmount(parseInt(e.target.value));
+          let value = e.target.value;
+
+          if (value === "" || value === "0") {
+            setAmount(value);
+          } else {
+            setAmount(parseFloat(value));
+          }
         }}
       />
       <button
