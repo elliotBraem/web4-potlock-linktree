@@ -20,7 +20,10 @@ export const DonateButton: React.FC<DonateButtonProps> = ({ recipientId }) => {
         💰 Donate
       </button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DonateModal recipientId={recipientId} closeModal={() => setIsModalOpen(false)} />
+        <DonateModal
+          recipientId={recipientId}
+          closeModal={() => setIsModalOpen(false)}
+        />
       </Modal>
     </>
   );

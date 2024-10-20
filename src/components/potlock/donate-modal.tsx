@@ -7,7 +7,7 @@ export const DonateModal: React.FC<{
 }> = ({ recipientId, closeModal }) => {
   const [amount, setAmount] = useState<number>(0);
   const donate = useDonate({ closeModal });
-  
+
   const handleDonate = () => {
     console.log(`Donating to ${recipientId}`);
     donate.mutate({ recipientId: recipientId, donationAmount: amount });
