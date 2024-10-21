@@ -12,7 +12,6 @@
   </p>
 
 </div>
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNEARBuilders%2Fdecentralized-social) 
 
 <details>
   <summary>Table of Contents</summary>
@@ -25,6 +24,10 @@
 - [Contributing](#contributing)
 
 </details>
+
+# Easy Deploy
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNEARBuilders%2Fdecentralized-social) 
+
 
 ## Getting Started
 
