@@ -1,9 +1,7 @@
 import { NETWORK_ID } from "@/config";
-import { useWallet } from "@/contexts/near";
 import { queryClient } from "@/main";
-import { Wallet } from "@/wallets/near-wallet";
 import { Social, transformActions } from "@builddao/near-social-js";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { queryOptions, useInfiniteQuery, useMutation } from "@tanstack/react-query";
 
 export type SocialImage = {
   url: string;
@@ -56,6 +54,12 @@ export async function getProfile(accountId: string): Promise<Profile | null> {
   return profile;
 }
 
+export const profileQueryOptions = (accountId: string) =>
+  queryOptions({
+    queryKey: ['profile', accountId],
+    queryFn: () => getProfile(accountId),
+  });
+
 export async function getPost(
   accountId: string,
   blockHeight: string
@@ -83,35 +87,35 @@ export async function getPosts(
   order: string = "desc",
   from?: string
 ): Promise<Post[]> {
-  const response = await social.index({
-    action,
-    key,
-    order,
-    limit: limit.toString(),
-    from
-  });
+  // const response = await social.index({
+  //   action,
+  //   key,
+  //   order,
+  //   limit: limit.toString(),
+  //   from
+  // });
 
-  if (!response) {
-    return [];
-  } else {
-    // Create an array of promises to fetch each post's content
-    const postPromises = response.map(async (it) => {
-      const post = await getPost(it.accountId, it.blockHeight);
+  // if (!response) {
+  //   return [];
+  // } else {
+  //   // Create an array of promises to fetch each post's content
+  //   const postPromises = response.map(async (it) => {
+  //     const post = await getPost(it.accountId, it.blockHeight);
 
-      return {
-        accountId: it.accountId,
-        item: {
-          path: `${it.accountId}/post/main`,
-          blockHeight: it.blockHeight,
-          type: "social"
-        },
-        content: post
-      };
-    });
+  //     return {
+  //       accountId: it.accountId,
+  //       item: {
+  //         path: `${it.accountId}/post/main`,
+  //         blockHeight: it.blockHeight,
+  //         type: "social"
+  //       },
+  //       content: post
+  //     };
+  //   });
 
-    // Wait for all post content fetches to complete
-    return Promise.all(postPromises);
-  }
+  //   // Wait for all post content fetches to complete
+  //   return Promise.all(postPromises);
+  // }
 }
 
 export function useGetPosts(limit: number = 10, order: string = "desc") {
@@ -138,8 +142,6 @@ export function useGetPosts(limit: number = 10, order: string = "desc") {
 }
 
 export function useCreatePost({ cleanup }: { cleanup?: () => void }) {
-  const { wallet } = useWallet();
-
   return useMutation({
     onSuccess: () => {
       // Invalidate and refetch the "posts" query
@@ -150,9 +152,9 @@ export function useCreatePost({ cleanup }: { cleanup?: () => void }) {
     },
     mutationFn: async ({ content }: { content: any }) => {
       try {
-        const tx = await createPost(wallet!, content);
+        // const tx = await createPost(wallet!, content);
 
-        const result = wallet?.signAndSendTransaction(tx);
+        // const result = wallet?.signAndSendTransaction(tx);
         return result; // Make sure the function returns a value/promise
       } catch (error) {
         console.error("Error in mutation:", error);
@@ -162,41 +164,41 @@ export function useCreatePost({ cleanup }: { cleanup?: () => void }) {
   });
 }
 
-export async function createPost(wallet: Wallet, content: any) {
-  const account = await wallet.getAccount();
-  const { publicKey, accountId } = account;
-  try {
-    const transaction = await social.set({
-      data: {
-        [accountId]: {
-          post: {
-            main: JSON.stringify(content)
-          },
-          index: {
-            post: JSON.stringify({
-              key: "main",
-              value: {
-                type: content.type
-              }
-            })
-          }
-        }
-      },
-      account: {
-        publicKey: publicKey,
-        accountID: accountId
-      }
-    });
+export async function createPost(content: any) {
+  // const account = getAccountId();
+  // const { publicKey, accountId } = account;
+  // try {
+  //   const transaction = await social.set({
+  //     data: {
+  //       [accountId]: {
+  //         post: {
+  //           main: JSON.stringify(content)
+  //         },
+  //         index: {
+  //           post: JSON.stringify({
+  //             key: "main",
+  //             value: {
+  //               type: content.type
+  //             }
+  //           })
+  //         }
+  //       }
+  //     },
+  //     account: {
+  //       publicKey: publicKey,
+  //       accountID: accountId
+  //     }
+  //   });
 
-    const transformedActions = transformActions(transaction.actions);
+  //   const transformedActions = transformActions(transaction.actions);
 
-    return {
-      contractId: SOCIAL_CONTRACT[NETWORK_ID],
-      actions: transformedActions
-    };
-  } catch (error) {
-    console.error("Error creating post:", error);
-  }
+  //   return {
+  //     contractId: SOCIAL_CONTRACT[NETWORK_ID],
+  //     actions: transformedActions
+  //   };
+  // } catch (error) {
+  //   console.error("Error creating post:", error);
+  // }
 }
 // Types
 type Like = {

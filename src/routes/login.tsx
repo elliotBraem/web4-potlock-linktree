@@ -1,24 +1,24 @@
+import { isSignedIn, login } from "@/lib/web4";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useWallet } from "../contexts/near";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage
 });
 
 export default function LoginPage() {
-  const { wallet, signedAccountId } = useWallet();
   const navigate = useNavigate();
+  const authenticated = isSignedIn();
 
   useEffect(() => {
-    if (signedAccountId) {
+    if (authenticated) {
       navigate({ to: "/" });
     }
-  }, [signedAccountId]);
+  }, [authenticated]);
 
   const handleSignIn = () => {
     try {
-      wallet!.signIn();
+      login();
     } catch (e) {
       console.error("Wallet not configured properly");
     }

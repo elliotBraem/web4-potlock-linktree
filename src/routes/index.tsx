@@ -1,5 +1,4 @@
-import Compose from "@/components/social/compose";
-import Feed from "@/components/social/feed";
+import DonationFeed from "@/components/potlock/donation-feed";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -9,8 +8,9 @@ export const Route = createFileRoute("/")({
 export default function HomePage() {
   return (
     <>
-      <Compose />
-      <Feed />
+      {/* <Compose /> */}
+      <DonationFeed />
+      {/* <Feed /> */}
     </>
   );
 }

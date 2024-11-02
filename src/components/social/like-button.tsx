@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { getLikes, likeItem, hasLike, Item } from "@/lib/social";
-import { useWallet } from "@/contexts/near";
 
 interface LikeButtonProps {
   item: Item;
@@ -8,7 +7,6 @@ interface LikeButtonProps {
 }
 
 export const LikeButton: React.FC<LikeButtonProps> = ({ item, accountId }) => {
-  const { wallet } = useWallet();
   const [likes, setLikes] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -25,7 +23,7 @@ export const LikeButton: React.FC<LikeButtonProps> = ({ item, accountId }) => {
 
   const handleLike = async () => {
     setIsLoading(true);
-    await likeItem(wallet!, item, isLiked);
+    // await likeItem(wallet!, item, isLiked);
     if (isLiked) {
       setLikes(likes - 1);
       setIsLiked(false);

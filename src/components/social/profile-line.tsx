@@ -1,15 +1,9 @@
-import { getImageUrl, getProfile } from "@/lib/social";
-import { useQuery } from "@tanstack/react-query";
+import { getImageUrl } from "@/lib/social";
 import { Link } from "@tanstack/react-router";
 import { Avatar } from "./avatar";
 
 export const ProfileLine: React.FC<{ accountId: string }> = ({ accountId }) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["profile", accountId],
-    queryFn: async () => {
-      return await getProfile(accountId);
-    }
-  });
+  const { data, isLoading, isError } = useProfile(accountId);
 
   const renderAvatar = () => {
     if (isLoading) {

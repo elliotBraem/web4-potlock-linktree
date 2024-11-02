@@ -1,8 +1,8 @@
-import { useGetPosts } from "@/lib/social";
+import { useGetAllDonations } from "@/lib/potlock";
 import { useEffect, useRef } from "react";
-import Post from "./post";
+import Donation from "./donation";
 
-export default function Feed() {
+export default function DonationFeed() {
   const {
     data,
     isLoading,
@@ -11,20 +11,20 @@ export default function Feed() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
-  } = useGetPosts(10, "desc");
+  } = useGetAllDonations(10);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const loadMorePosts = (entries: IntersectionObserverEntry[]) => {
+    const loadMoreDonations = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
       if (entry.isIntersecting && hasNextPage) {
-        fetchNextPage(); // Fetch the next page
+        fetchNextPage(); // Fetch the next page of donations
       }
     };
 
-    observerRef.current = new IntersectionObserver(loadMorePosts, {
-      rootMargin: "200px" // Trigger before reaching the bottom
+    observerRef.current = new IntersectionObserver(loadMoreDonations, {
+      rootMargin: "200px"
     });
 
     const currentRef = observerRef.current;
@@ -40,15 +40,17 @@ export default function Feed() {
     };
   }, [hasNextPage, fetchNextPage]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading donations...</div>;
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
     <div className="space-y-4">
-      {data?.pages?.map((page) =>
-        page?.map((post, index) => <Post key={index} {...post} />)
+      {data && data?.pages?.map((page, pageIndex) =>
+        page?.map((donation, index) => (
+          <Donation key={`${pageIndex}-${index}`} {...donation} />
+        ))
       )}
-      {isFetchingNextPage && <div>Loading more posts...</div>}
+      {isFetchingNextPage && <div>Loading more donations...</div>}
       <div id="sentinel" ref={observerRef} />
     </div>
   );

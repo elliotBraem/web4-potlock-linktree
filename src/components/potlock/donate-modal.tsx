@@ -1,4 +1,4 @@
-import { useDonate, useGetDonations } from "@/lib/potlock";
+import { useDonate } from "@/lib/potlock";
 import { useState } from "react";
 
 export const DonateModal: React.FC<{

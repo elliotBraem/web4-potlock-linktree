@@ -1,9 +1,11 @@
 import { ProfileView } from "@/components/social/profile";
-import { getProfile } from "@/lib/social";
+import { profileQueryOptions } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/profile/$accountId")({
-  loader: async ({ params }) => await getProfile(params.accountId),
+  loader: async ({ params: { accountId }, context: { queryClient } }) => {
+    return queryClient.ensureQueryData(profileQueryOptions(accountId))
+  },
   errorComponent: ({ error }) => {
     return <div>{error.message}</div>;
   },
